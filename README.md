@@ -7,5 +7,6 @@ We are always looking for improvement and contributions to our reference sheet. 
 
 ##Contents:
 - *R Programming Reference*: complilation of useful information and code snippet     
-[.html](http://rpubs.com/uwaterloodatateam/r-programming-reference) [(.pdf)](/raw/master/r-programming-reference.pdf) [(r markdown)](r-programming-reference.Rmd)
-- R Programming 101 (Beginner Tutorial) //introduction to using R 
+[ Reference in html](http://rpubs.com/uwaterloodatateam/r-programming-reference) [Reference in pdf)](/raw/master/r-programming-reference.pdf) [Source (r markdown)](r-programming-reference.Rmd)
+- *R Programming 101 (Beginner Tutorial)*: Introduction to R Presentation 
+[Reference in html](http://rpubs.com/uwaterloodatateam/r-programming-101) [Reference in pdf)](/raw/master/r-programming-101.pdf) [Source (r markdown)](r-programming-101.Rmd)
