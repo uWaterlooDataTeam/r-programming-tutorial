@@ -1,8 +1,8 @@
 ---
 title: "R Programmming 101 (Beginner Tutorial)"
 author: "MFSA / Stats Club"
-date: "June 9, 2015"
-output: ioslides_presentation
+date: 'Last Updated: June 24, 2015'
+output: beamer_presentation
 ---
 
 ## R for Statisitical Computing
@@ -134,12 +134,13 @@ c(1,2,3) ^ c(1,2,3,4,5,6)
 | == | Equal to |
 | != | Not equal to |
 | \| | Elementwise Or |
-| & | Elementwise And |
+
 
 ---
 
 | Operator | Description |
 |----------|-------------|
+| & | Elementwise And |
 | \|\| | Or |
 | && | And |
 
@@ -178,6 +179,12 @@ x <- 1
 x
 ```
 
+*Be careful:* <- is not the same as < -
+```{r}
+x < -1
+```
+
+
 ---
 
 ```{r}
@@ -190,9 +197,8 @@ y
 z
 ```
 
-*Be careful:*
 
-x <- 1 is not the same as x < -1
+
 
 ## Concatenating Vectors
 

@@ -1,15 +1,15 @@
 ---
 title: "R Programming Reference"
 author: "Andrew Andrade (andrew at andrewandrade.ca) @ uWaterloo DataTeam"
-date: 'Last Updated: March 29, 2015'
+date: 'Last Updated: June 24, 2015'
 output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
   html_document:
     highlight: tango
     number_sections: yes
-    theme: flatly
-    toc: yes
-  pdf_document:
-    number_sections: yes
+    theme: cosmo
     toc: yes
 ---
 
@@ -27,18 +27,48 @@ Looking forward to seeing pull requests!
 
 
 ## Basic Operators
-`+` `-` `*` `/`
+`+` Addition   
+`-` Subtraction   
+`*` Multiplication   
+`/` Division   
+`^` Power   
 
 ### Logical Operators
-`<` `<=` `>` `>=` `==` `!=` `|` `&`
+`<` Less than   
+`>` Greater than       
+`<=` Less than or equal to   
+`>=` Greater than or equal to      
+`==` Equal to   
+`!=` Not Equal to   
+`|` Element-wise Or   
+`&` Element-wise And   
+`||` Or   
+`&&` And   
+
 
 ### Assignment Operators
 
-`<-` is the assignment operator
+Comes in 3 forms:
+
+`<-` var_name <- evaluation     
+`=` var_name = evaluation   
+`->` var_name -> evaluation   
+
 
 ```{r}
 x <- 1
+x = 1
+1 -> x
 ```
+
+Note: var_name <- evaluation is not the same as var_name < -evaluation
+
+```{r}
+x <- 1
+x
+x < -1
+```
+
 
 ## Atomic classes of objects
 
