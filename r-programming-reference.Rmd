@@ -1,19 +1,24 @@
 ---
 title: "R Programming Reference"
 author: "Andrew Andrade (andrew at andrewandrade.ca) @ uWaterloo DataTeam"
-date: "Last Updated: March 29, 2015"
+date: 'Last Updated: March 29, 2015'
 output:
   html_document:
     highlight: tango
     number_sections: yes
     theme: flatly
     toc: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
 ---
 
 ##Introduction
 This documents serves as a reference sheet with example for the basics of R programming.   
 
-It is a dump functions and examples I find to be useful.  Please help contribute by adding snipets you find useful.
+The purpose is to provide a compilation of use information and code snippets for basics of R Progamming for data science.  Please help contribute by adding snipets you find useful.
+
+Source: https://github.com/uWaterlooDataTeam/r-programming-tutorial
 
 Looking forward to seeing pull requests!
 
