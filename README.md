@@ -1,7 +1,7 @@
 # R Programming Tutorial
 R programming tutorials created by the uWaterloo stats club and MSFA.
 
-The purpose of these tutorials are to information to quickly get students hands dirty using R.
+The purpose of these tutorials are to provive the basic information to quickly get students hands dirty using R.
 
 We are always looking for improvement and contributions to our reference sheet. Looking forward to see pull requests!
 
