@@ -1,0 +1,820 @@
+---
+title: "R Programming Reference"
+author: "Andrew Andrade (andrew at andrewandrade.ca) @ uWaterloo DataTeam"
+date: "Last Updated: March 29, 2015"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+---
+
+##Introduction
+This documents serves as a reference sheet with example for the basics of R programming.   
+
+It is a dump functions and examples I find to be useful.  Please help contribute by adding snipets you find useful.
+
+Looking forward to seeing pull requests!
+
+
+# Data Types and Basic Operations
+
+
+## Basic Operators
+`+` `-` `*` `/`
+
+### Logical Operators
+`<` `<=` `>` `>=` `==` `!=` `|` `&`
+
+### Assignment Operators
+
+`<-` is the assignment operator
+
+```{r}
+x <- 1
+```
+
+## Atomic classes of objects
+
+- Character  
+- Numeric
+- Integer
+- Complex
+- Logical
+
+
+### character
+
+Use " "
+
+```{r}
+c("My", "name", "is")
+```
+
+Combining elements
+
+
+```{r}
+my_char <- c("My", "name", "is")
+paste(my_char, collapse = " ")
+# Vectorized
+paste(1:3, c("X", "Y", "Z"), sep = "")
+# recycling
+paste(LETTERS, 1:4, sep = "-")
+```
+
+
+### numeric
+
+- Generally treated as a double real number or "numeric"
+
+```{r}
+class(1)
+```
+
+### integer
+
+```{r}
+class (1L)
+```
+
+- Inf represents infinity
+
+```{r}
+1/0
+```
+
+- Inf can be used in calculations
+
+```{r}
+1/Inf
+```
+
+- NaN represent undefined value or missing value
+
+```{r}
+0/0
+```
+
+### complex
+```{r}
+z <- complex(real = 1, imaginary = 2)
+z
+```
+
+
+
+### logical
+
+```{r}
+my_vector <-1:10
+my_logical <- my_vector == 5
+my_logical
+```
+
+
+## Attributes
+
+Sample attributes:
+
+- names, dimnames
+- dimentions
+- class
+- length
+
+```{r}
+temp <- 1:10
+length (temp)
+```
+
+
+- other meta data
+
+Attributes can be used using attributes()
+
+## Sequences
+
+Simplest way is using :
+```{r}
+temp <- 1:10
+temp
+temp <- pi:10
+temp
+temp <- 15:1
+temp
+```
+Alternatively you can use seq()
+
+```{r}
+my_seq <- seq(0, 20)
+my_seq <- seq(0, 10, by=0.5)
+my_seq <- seq(5, 10, length=30)
+```
+
+### seq_along
+```{r}
+seq_along (my_seq)
+```
+
+### along.with
+```{r}
+my_seq <- seq(along.with = my_seq)
+```
+### rep()
+```{r}
+rep(0, times = 40)
+rep(c(0, 1, 2), times = 10)
+rep(c(0, 1, 2), each = 10)
+```
+
+
+## Vectors
+
+- Vectors can only contain objects of same class
+
+- List is a vector that can contain objects of different classes
+
+### Creating vectors
+
+- Vector can be created using vector() function
+
+```{r}
+x <- vector("numeric", length = 10)
+
+x
+```
+
+
+- c() function can be used to create vectors
+
+```{r}
+x <- c(0.5, 0.6)
+x <- c(TRUE, FALSE) ## logical
+x <- c(T, F) ## logical
+x <- c("a", "b", "c") ## character
+x <- 9:29 ## integer
+x <- c(1+0i, 2+4i) ## complex
+```
+
+### Coercion
+
+Coercion occurs when mixing objects
+
+```{r}
+y <- c(1.7, "a") ## character
+y
+y <- c(TRUE, 2) ## numeric
+y
+y <- c("a", TRUE) ## character
+y
+```
+
+### Explicit Coercion
+
+use the as.* functions
+
+```{r}
+
+x <- 0:6
+class(x)
+as.numeric(x)
+as.logical(x)
+as.character(x)
+```
+
+Note: nonsensical coercion results in NA
+
+
+```{r}
+x <- c("a", "b", "c")
+as.numeric(x)
+```
+
+### Subsetting Vectors
+
+```{r}
+x <- rnorm(100)
+x[1:10]
+
+#subset everything except 2 and 10
+x[c(-2, -10)]
+x[-c(2, 10)]
+```
+
+### Named elements 
+
+```{r}
+vect <- c(foo = 11, bar = 2, norf = NA)
+#view names
+names (vect)
+```
+
+Named vector after creation
+
+```{r}
+
+vect2 <- c(11,2,NA)
+names(vect2)<- c("foo", "bar", "norf")
+
+```
+
+View names
+```{r}
+vect[c("foo", "bar")]
+```
+
+
+## Matrices
+
+- are vectors with dimension attribute (a integer vector of lenth 2)
+
+```{r}
+m <- matrix(nrow = 2, ncol = 3)
+m
+dim(m)
+attributes(m)
+```
+- matricies are column wise
+
+```{r}
+m <- matrix (1:6, nrow = 2, ncol =3)
+m
+```
+- can be created from vectors by adding dimension attribute
+
+```{r}
+m<-1:10
+m
+dim(m)<- c(2,5)
+m
+```
+
+### column bind and row bind
+
+- Create matrices by column-binding (cbind) or row-binding (rbind)
+
+```{r}
+
+x <- 1:3
+y <- 10:12
+cbind (x,y)
+
+rbind (x,y)
+
+```
+
+### Subsetting a Matrix
+
+Matrices can be subsetted in the usual way with (_i,j_) type indices.
+
+```r
+x <- matrix(1:6, 2, 3)
+x[1, 2]
+x[2, 1]
+```
+Subsetting a single element resutls in returning a vector of length 1 rather than a 1x1 matrix.  This can be changed using 'drop = FALSE'
+
+```r
+x <- matrix(1:6, 2, 3)
+x[1, 2]
+x[2, 1]
+```
+
+Similarly, subsetting a single column or a single row will give you a vector, not a matrix (by default).
+
+```r
+x <- matrix(1:6, 2, 3)
+x[1, ]
+x[1, , drop = FALSE]
+
+```
+
+
+## Lists
+
+As mentioned before, lists are a vector which contain elements of different classes
+
+```{r}
+x <- list(1, "a", TRUE, 1 + 4i)
+x
+```
+### Subsetting Lists
+
+```{r}
+x <- list(foo = 1:4, bar = 0.6)
+x$foo
+x$bar
+x[["bar"]]
+x["bar"]
+
+x <- list(foo = 1:4, bar = 0.6, baz = "hello")
+x[c(1, 3)]
+
+```
+The `[[` operator can be used with _computed_ indices; `$` can only be used with literal names.
+
+```r
+x <- list(foo = 1:4, bar = 0.6, baz = "hello")
+name <- "foo"
+x[[name]]  ## computed index for ‘foo’
+x$name     ## element ‘name’ doesn’t exist!
+x$foo
+
+```
+
+### Subsetting Nested Elements of a List
+
+The `[[` can take an integer sequence.
+
+```r
+x <- list(a = list(10, 12, 14), b = c(3.14, 2.81))
+x[[c(1, 3)]]
+x[[1]][[3]]
+x[[c(2, 1)]]
+```
+
+## Factors
+
+Used to represent categorical data (ie male and female)
+
+
+```{r}
+x <- factor(c("yes", "yes", "no", "yes", "no"))
+x
+
+table (x)
+unclass(x)
+```
+
+### Setting order of levels
+
+- Very important in linear modeling since first level is baseline level
+
+
+```{r}
+
+x<- factor(c("yes", "yes", "no", "yes", "no"),
+levels = c("yes", "no"))
+x
+
+```
+
+## Missing Values
+
+Missing values are denoted by NA or NaN for undefined mathematical operations.
+
+- is.na() is used to test objects if they are NA
+
+- is.nan() is used to test for NaN
+
+- NA values have a class also, so there are integer NA, character NA, etc.
+
+- A NaN value is also NA but the converse is not true
+
+- Be very careful when combining missing values with logical expressions
+
+```{r}
+x <- c(1, 2, NA, 10, 3)
+is.na(x)
+is.nan(x)
+x <- c(1, 2, NaN, NA, 4)
+is.na(x)
+is.nan(x)
+
+```
+
+### Selecting everything with NA
+
+```{r}
+
+x[is.na(x)]
+
+x[!is.na(x)]
+
+x[is.na(x)] <-0
+
+
+```
+
+### Subset with no missing values
+
+```r
+x <- c(1, 2, NA, 4, NA, 5)
+y <- c("a", "b", NA, "d", NA, "f")
+good <- complete.cases(x, y)
+good
+x[good]
+y[good]
+```
+### Set all NA to zeros
+
+```{r}
+
+```
+
+
+
+## Data Frames
+
+-Used to save tabular data
+
+-List of same length
+
+-attribute called 'row.names'
+
+- can be created using 'read.table()' and 'read.csv()'
+
+- be careful when converting to matrix 'data.matrix()'
+
+```{r}
+x <- data.frame(foo = 1:4, bar = c(T, T, F, F))
+x
+
+nrow(x)
+
+ncol(x)
+```
+
+
+## Names
+
+### Objects
+R objects can have names as shown before.
+
+```{r}
+x <- 1:3
+names(x)
+names(x) <- c("foo", "bar", "norf")
+x
+names(x)
+```
+
+### Lists
+
+
+```{r}
+x <- list (a =1, b = 2, c = 3)
+```
+
+
+### Matrices
+
+
+```{r}
+m <- matrix(1:4, nrow = 2, ncol = 2)
+dimnames(m) <- list(c("a", "b"), c("c", "d"))
+m
+
+```
+
+
+# Reading and Writing Data
+
+## Reading Data
+
+There are a few principal functions reading data into R.
+- `read.table`, `read.csv`, for reading tabular data
+
+- `readLines`, for reading lines of a text file
+
+- `source`, for reading in R code files (`inverse` of `dump`)
+
+- `dget`, for reading in R code files (`inverse` of `dput`)
+
+- `load`, for reading in saved workspaces
+
+- `unserialize`, for reading single R objects in binary form
+
+
+### Reading Data Files with read.table
+
+The `read.table` function is one of the most commonly used functions for reading data. 
+
+For small to moderately sized datasets, you can usually call read.table without specifying any other arguments
+
+```r
+data <- read.table("foo.txt")
+```
+### Reading in Larger Datasets with read.table
+
+With much larger datasets, doing the following things will make your life easier and will prevent R from choking.
+
+- Read the help page for read.table, which contains many hints
+
+- Make a rough calculation of the memory required to store your dataset. If the dataset is larger than the amount of RAM on your computer, you can probably stop right here.
+
+- Set `comment.char = ""` if there are no commented lines in your file.
+
+- Use the `colClasses` argument. Specifying this option instead of using the default can make ’read.table’ run MUCH faster, often twice as fast. In order to use this option, you have to know the class of each column in your data frame. If all of the columns are “numeric”, for example, then you can just set `colClasses = "numeric"`. A quick an dirty way to figure out the classes of each column is the following:
+
+```r
+initial <- read.table("datatable.txt", nrows = 100)
+classes <- sapply(initial, class)
+tabAll <- read.table("datatable.txt",
+                     colClasses = classes)
+```
+### Reading Lines of a Text File
+
+```r
+con <- gzfile("words.gz")
+x <- readLines(con, 10)
+x
+```
+
+`writeLines` takes a character vector and writes each element one line at a time to a text file.
+
+`readLines` can be useful for reading in lines of webpages
+
+```r
+## This might take time
+con <- url("http://www.jhsph.edu", "r")
+x <- readLines(con)
+> head(x)
+```
+
+
+
+## Writing Data
+
+There are analogous functions for writing data to files
+- write.table
+- writeLines
+- dump
+- dput
+- save
+- serialize
+
+### Textual Formats
+
+- `dumping` and dputing are useful because the resulting textual format is edit-able, and in the case of corruption, potentially recoverable.
+
+- `Unlike` writing out a table or csv file, `dump` and `dput` preserve the _metadata_ (sacrificing some readability), so that another user doesn’t have to specify it all over again.
+
+- `Textual` formats can work much better with version control programs like subversion or git which can only track changes meaningfully in text files
+
+- Textual formats can be longer-lived; if there is corruption somewhere in the file, it can be easier to fix the problem
+
+- Textual formats adhere to the “Unix philosophy”
+
+- Downside: The format is not very space-efficient
+
+### dput-ting R Objects
+
+Another way to pass data around is by deparsing the R object with dput and reading it back in using `dget`.
+
+```r
+y <- data.frame(a = 1, b = "a")
+dput(y)
+structure(list(a = 1,
+               b = structure(1L, .Label = "a",
+                             class = "factor")),
+          .Names = c("a", "b"), row.names = c(NA, -1L),
+          class = "data.frame")
+dput(y, file = "y.R")
+new.y <- dget("y.R")
+new.y
+```
+### Dumping R Objects
+
+Multiple objects can be deparsed using the dump function and read back in using `source`.
+
+```r
+x <- "foo"
+y <- data.frame(a = 1, b = "a")
+dump(c("x", "y"), file = "data.R")
+rm(x, y)
+source("data.R")
+y
+x
+```
+
+### Interfaces to the Outside World
+
+Data are read in using _connection_ interfaces. Connections can be made to files (most common) or to other more exotic things.
+
+- `file`, opens a connection to a file
+
+- `gzfile`, opens a connection to a file compressed with gzip
+
+- `bzfile`, opens a connection to a file compressed with bzip2
+
+- `url`, opens a connection to a webpage
+
+
+### File Connections
+
+```r
+> str(file)
+function (description = "", open = "", blocking = TRUE,
+          encoding = getOption("encoding"))
+```
+
+- `description` is the name of the file
+- `open` is a code indicating
+  - “r” read only
+  - “w” writing (and initializing a new file)
+  - “a” appending
+  - “rb”, “wb”, “ab” reading, writing, or appending in binary mode (Windows)
+
+### Connections
+
+In general, connections are powerful tools that let you navigate files or other external objects. In practice, we often don’t need to deal with the connection interface directly.
+
+```r
+con <- file("foo.txt", "r")
+data <- read.csv(con)
+close(con)
+```
+
+is the same as
+
+```r
+data <- read.csv("foo.txt")
+```
+
+#Control Structures
+
+Control structures in R allow you to control the flow of execution of the program, depending on runtime conditions. Common structures are
+
+- `if`, `else`: testing a condition
+
+- `for`: execute a loop a fixed number of times
+
+- `while`: execute a loop _while_ a condition is true
+
+- `repeat`: execute an infinite loop
+
+- `break`: break the execution of a loop
+
+- `next`: skip an interation of a loop
+
+- `return`: exit a function
+
+## if
+
+Example of how to use if:
+
+if(<condition1>) {
+        ## do something
+} else if(<condition2>)  {
+        ## do something different
+} else {
+        ## do something different
+}
+
+
+### Setting variables using if
+
+```r
+y <- if(x > 3) {
+        10
+} else {
+        0
+}
+```
+## for
+
+`for` loops take an interator variable and assign it successive values from a sequence or vector. For loops are most commonly used for iterating over the elements of an object (list, vector, etc.)
+
+```r
+for(i in 1:10) {
+        print(i)
+}
+```
+
+### Nested for loops
+
+`for` loops can be nested.
+
+```r
+x <- matrix(1:6, 2, 3)
+
+for(i in seq_len(nrow(x))) {
+        for(j in seq_len(ncol(x))) {
+                print(x[i, j])
+        }
+}
+```
+
+## while
+
+While loops begin by testing a condition. If it is true, then they execute the loop body. Once the loop body is executed, the condition is tested again, and so forth.
+
+```r
+count <- 0
+while(count < 10) {
+        print(count)
+        count <- count + 1
+}
+```
+### multi conditional while
+
+Sometimes there will be more than one condition in the test.
+
+```r
+z <- 5
+
+while(z >= 3 && z <= 10) {
+        print(z)
+        coin <- rbinom(1, 1, 0.5)
+
+        if(coin == 1) {  ## random walk
+                z <- z + 1
+        } else {
+                z <- z - 1
+        }
+}
+```
+
+## repeat 
+
+Repeat initiates an infinite loop; these are not commonly used in statistical applications but they do have their uses. The only way to exit a `repeat` loop is to call `break`.
+
+```r
+x0 <- 1
+tol <- 1e-8
+
+repeat {
+        x1 <- computeEstimate()
+
+        if(abs(x1 - x0) < tol) {
+                break
+        } else {
+                x0 <- x1
+        }
+}
+```
+
+The previous loop is a bit dangerous because there’s no guarantee it will stop. Better to set a hard limit on the number of iterations (e.g. using a for loop) and then report whether convergence was achieved or not.
+
+
+## Special control functions
+
+### Next, return
+
+`next` is used to skip an iteration of a loop
+
+```r
+for(i in 1:100) {
+        if(i <= 20) {
+                ## Skip the first 20 iterations
+                next
+        }
+        ## Do something here
+}
+```
+
+`return` signals that a function should exit and return a given value
+
+
+
+
+## lapply and sapply
+
+
+## Functions to add:
+rnorm  
+sample  
+print () prints values
+identical(vect, vect2)
